@@ -28,8 +28,11 @@ def parse_args(args: list) -> [int, str, bool, str]:
             read_from_file = True
         elif next_arg_is_output_file:
             output_file = arg
-        else:
+            next_arg_is_output_file = False
+        elif len(result) < 2:
             result.append(arg)
+        else:
+            result[1] += " " + arg
     if len(result) == 1:
         result = [1] + result
     else:
