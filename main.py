@@ -43,10 +43,23 @@ def shift_characters(n, inpt) -> str:
             result += char
     return result
 
+def shift_input(n, inpt, read_from_file, output_file) -> None:
+    if read_from_file:
+        with open(inpt) as f:
+            content = f.read()
+    else:
+        content = inpt
+    shifted = shift_characters(n, content)
+    if output_file == "":
+        print(shifted)
+    else:
+        with open(output_file, 'x') as f:
+            f.write(shifted)
+
 def main():
     try:
         n, inpt, read_from_file, output_file = parse_args(sys.argv)
-        print(shift_characters(n, inpt))
+        shift_input(n, inpt, read_from_file, output_file)
     except Exception as e:
         print("Error:", e)
         print_command_template()
