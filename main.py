@@ -22,6 +22,7 @@ def parse_args(args: list) -> [int, str, bool, str]:
             output_file = arg
         else:
             result.append(arg)
+    result[0] = int(result[0])
     result += [read_from_file, output_file]
     if len(result) > 4:
         raise SyntaxError("Too many args")
@@ -29,9 +30,23 @@ def parse_args(args: list) -> [int, str, bool, str]:
         raise SyntaxError("Not enough args")
     return result
 
+def shift_characters(n, inpt) -> str:
+    result = ""
+    size = len(string.ascii_uppercase)
+    for char in inpt:
+        if char.isalpha():
+            if char.isupper():
+                result += string.ascii_uppercase[(string.ascii_uppercase.index(char) + n) % size]
+            else:
+                result += string.ascii_lowercase[(string.ascii_lowercase.index(char) + n) % size]
+        else:
+            result += char
+    return result
+
 def main():
     try:
-        print(parse_args(sys.argv))
+        n, inpt, read_from_file, output_file = parse_args(sys.argv)
+        print(shift_characters(n, inpt))
     except Exception as e:
         print("Error:", e)
         print_command_template()
