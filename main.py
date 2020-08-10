@@ -2,7 +2,7 @@ import string
 import sys
 
 def print_command_template() -> None:
-    print("ROTN {n; how much rotation} {text to be translated or name of file} [flag]")
+    print("ROTN [n; how much rotation; default 1] {text to be translated or name of file} [flag]")
     print("\tflags:")
     print("\t\t-f - input is a filename to translate; next word is file name")
     print("\t\t-o - Use an output file; next word is file name")
