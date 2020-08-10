@@ -22,10 +22,13 @@ def parse_args(args: list) -> [int, str, bool, str]:
             output_file = arg
         else:
             result.append(arg)
-    try:
-        result[0] = int(result[0])
-    except:
-        raise SyntaxError("Not enough args")
+    if len(result) == 1:
+        result = [1] + result
+    else:
+        try:
+            result[0] = int(result[0])
+        except:
+            raise SyntaxError("Not enough args")
     result += [read_from_file, output_file]
     if len(result) > 4:
         raise SyntaxError("Too many args")
