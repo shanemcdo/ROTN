@@ -53,7 +53,7 @@ def shift_input(n, inpt, read_from_file, output_file) -> None:
     if output_file == "":
         print(shifted)
     else:
-        with open(output_file, 'x') as f:
+        with open(output_file, 'w') as f:
             f.write(shifted)
 
 def main():
