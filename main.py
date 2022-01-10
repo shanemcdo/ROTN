@@ -17,7 +17,7 @@ def print_command_template() -> None:
     '''
     print out command usage
     '''
-    print('''ROTN [n] {content} [-f INPUTFILE] [-o OUTPUTFILE]
+    print('''ROTN [n] [content] [-f INPUTFILE] [-o OUTPUTFILE]
   Performs rotn cypher on content
   n        - number of spaces in alphabet to shift
              default of 1
@@ -26,8 +26,7 @@ def print_command_template() -> None:
   flags:
     -h, --help                         - display this text
     -f INPUTFILE, --file INPUTFILE     - read content from file INPUTFILE
-    -o OUTPUTFILE, --output OUTPUTFILE - output result to file OUTPUTFILE
-''')
+    -o OUTPUTFILE, --output OUTPUTFILE - output result to file OUTPUTFILE''')
 
 def parse_args(args: list) -> [int, str, str]:
     '''
