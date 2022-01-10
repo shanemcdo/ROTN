@@ -33,7 +33,7 @@ def parse_args(args: list) -> [int, str, str]:
     '''
     turn sys.argv into more usable information
     :args: list of arguments passed from the system
-    :returns: [the key or how many spaces shifted, text or name of file to be shifted, true/false if reading from file, output file name]
+    :returns: [the key or how many spaces shifted, text or name of file to be shifted, output file name]
     '''
     result = [1, '', '']
     _ = sys.argv.pop(0)
