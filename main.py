@@ -17,10 +17,17 @@ def print_command_template() -> None:
     '''
     print out command usage
     '''
-    print("ROTN [n; how much rotation; default 1] {text to be translated or name of file} [flag]")
-    print("\tflags:")
-    print("\t\t-f - input is a filename to translate; next word is file name")
-    print("\t\t-o - Use an output file; next word is file name")
+    print('''ROTN [n] {content} [-f INPUTFILE] [-o OUTPUTFILE]
+  Performs rotn cypher on content
+  n        - number of spaces in alphabet to shift
+             default of 1
+  content  - the text to manipulate
+             defaults by reading stdin
+  flags:
+    -h, --help                         - display this text
+    -f INPUTFILE, --file INPUTFILE     - read content from file INPUTFILE
+    -o OUTPUTFILE, --output OUTPUTFILE - output result to file OUTPUTFILE
+''')
 
 def parse_args(args: list) -> [int, str, str]:
     '''
@@ -35,7 +42,10 @@ def parse_args(args: list) -> [int, str, str]:
     first = True
     while len(sys.argv):
         match sys.argv.pop(0):
-            case '-o':
+            case '-h' | '--help':
+                print_command_template()
+                exit(0)
+            case '-o' | '--output':
                 if o_flag:
                     print('Cannot have more than one o flag', file=sys.stderr)
                     exit(1)
@@ -44,7 +54,7 @@ def parse_args(args: list) -> [int, str, str]:
                     print('Expected argument FILENAME after o flag', file=sys.stderr)
                     exit(1)
                 result[2] = sys.argv.pop(0)
-            case '-f':
+            case '-f' | '--file':
                 if f_flag:
                     print('Cannot have more than one f flag', file=sys.stderr)
                     exit(1)
