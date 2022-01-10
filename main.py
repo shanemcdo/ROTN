@@ -47,21 +47,17 @@ def parse_args(args: list) -> [int, str, str]:
                 exit(0)
             case '-o' | '--output':
                 if o_flag:
-                    print('Cannot have more than one o flag', file=sys.stderr)
-                    exit(1)
+                    raise ValueError('Cannot have more than one o flag')
                 elif len(sys.argv) < 1:
                     o_flag = True
-                    print('Expected argument FILENAME after o flag', file=sys.stderr)
-                    exit(1)
+                    raise ValueError('Expected argument FILENAME after o flag')
                 result[2] = sys.argv.pop(0)
             case '-f' | '--file':
                 if f_flag:
-                    print('Cannot have more than one f flag', file=sys.stderr)
-                    exit(1)
+                    raise ValueError('Cannot have more than one f flag')
                 elif len(sys.argv) < 1:
                     f_flag = True
-                    print('Expected argument FILENAME after f flag', file=sys.stderr)
-                    exit(1)
+                    raise ValueError('Expected argument FILENAME after f flag')
                 result[1] = open(sys.argv.pop(0), 'r').read()
             case n if first and can_parse_int(n):
                 first = False
@@ -109,8 +105,8 @@ def main():
     try:
         shift_input(*parse_args(sys.argv))
     except Exception as e:
-        print("Error:", e, file=stderr)
-        print_command_template()
+        print("ROTN: Error:", e, file=sys.stderr)
+        exit(1)
 
 if __name__ == "__main__":
     main()
