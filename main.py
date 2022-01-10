@@ -44,7 +44,7 @@ def parse_args(args: list) -> [int, str, str]:
         match sys.argv.pop(0):
             case '-h' | '--help':
                 print_command_template()
-                sys.exit(0)
+                sys.exit()
             case '-o' | '--output':
                 if o_flag:
                     raise ValueError('Cannot have more than one o flag')
