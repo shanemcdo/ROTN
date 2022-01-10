@@ -99,7 +99,7 @@ def main():
     try:
         shift_input(*parse_args(sys.argv))
     except Exception as e:
-        print("Error:", e)
+        print("Error:", e, file=stderr)
         print_command_template()
 
 if __name__ == "__main__":
