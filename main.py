@@ -44,7 +44,7 @@ def parse_args(args: list) -> [int, str, str]:
         match sys.argv.pop(0):
             case '-h' | '--help':
                 print_command_template()
-                exit(0)
+                sys.exit(0)
             case '-o' | '--output':
                 if o_flag:
                     raise ValueError('Cannot have more than one o flag')
@@ -106,7 +106,7 @@ def main():
         shift_input(*parse_args(sys.argv))
     except Exception as e:
         print("ROTN: Error:", e, file=sys.stderr)
-        exit(1)
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
