@@ -3,6 +3,16 @@
 import string
 import sys
 
+def can_parse_int(s: str) -> bool:
+    '''
+    Returns true if s can be parsed into an int
+    '''
+    try:
+        int(s)
+        return True
+    except:
+        return False
+
 def print_command_template() -> None:
     """
     print out command usage
@@ -12,42 +22,46 @@ def print_command_template() -> None:
     print("\t\t-f - input is a filename to translate; next word is file name")
     print("\t\t-o - Use an output file; next word is file name")
 
-def parse_args(args: list) -> [int, str, bool, str]:
-    """
+def parse_args(args: list) -> [int, str, str]:
+    '''
     turn sys.argv into more usable information
     :args: list of arguments passed from the system
     :returns: [the key or how many spaces shifted, text or name of file to be shifted, true/false if reading from file, output file name]
-    """
-    result = []
-    output_file = ""
-    read_from_file = False
-    next_arg_is_output_file = False
-    _ = args.pop(0)
-    for arg in args:
-        if arg == '-o':
-            next_arg_is_output_file = True
-        elif arg == '-f':
-            read_from_file = True
-        elif next_arg_is_output_file:
-            output_file = arg
-            next_arg_is_output_file = False
-        elif len(result) < 2:
-            result.append(arg)
-        else:
-            result[1] += " " + arg
-    if len(result) == 1:
-        result = [1] + result
-    else:
-        try:
-            result[0] = int(result[0])
-        except:
-            raise SyntaxError("Not enough args")
-    result += [read_from_file, output_file]
-    if len(result) > 4:
-        raise SyntaxError("Too many args")
-    elif len(result) < 4:
-        raise SyntaxError("Not enough args")
+    '''
+    result = [1, '', '']
+    _ = sys.argv.pop(0)
+    o_flag = False
+    f_flag = False
+    first = True
+    while len(sys.argv):
+        match sys.argv.pop(0):
+            case '-o':
+                if o_flag:
+                    print('Cannot have more than one o flag', file=sys.stderr)
+                    exit(1)
+                elif len(sys.argv) < 1:
+                    o_flag = True
+                    print('Expected argument FILENAME after o flag', file=sys.stderr)
+                    exit(1)
+                result[2] = sys.argv.pop(0)
+            case '-f':
+                if f_flag:
+                    print('Cannot have more than one f flag', file=sys.stderr)
+                    exit(1)
+                elif len(sys.argv) < 1:
+                    f_flag = True
+                    print('Expected argument FILENAME after f flag', file=sys.stderr)
+                    exit(1)
+                result[1] = open(sys.argv.pop(0), 'r').read()
+            case n if first and can_parse_int(n):
+                first = False
+                result[0] = int(n)
+            case s if not f_flag:
+                result[1] = f'{result[1]} {s}' if result[1] else s
+    if not result[1]:
+        result[1] = sys.stdin.read()
     return result
+
 
 def shift_characters(n: int, inpt: str) -> str:
     """
@@ -67,21 +81,15 @@ def shift_characters(n: int, inpt: str) -> str:
             result += char
     return result
 
-def shift_input(n: int, inpt: str, read_from_file: bool, output_file: str) -> None:
+def shift_input(n: int, inpt: str, output_file: str) -> None:
     """
     shift text or input from file and print or put in file
     :n: number of spaces shifted
     :inpt: text to be shifted or path to file
-    :read_from_file: true/false if reading from file
     :output_file: name of file to write to
     """
-    if read_from_file:
-        with open(inpt) as f:
-            content = f.read()
-    else:
-        content = inpt
-    shifted = shift_characters(n, content)
-    if output_file == "":
+    shifted = shift_characters(n, inpt)
+    if output_file == '':
         print(shifted)
     else:
         with open(output_file, 'w') as f:
@@ -89,8 +97,7 @@ def shift_input(n: int, inpt: str, read_from_file: bool, output_file: str) -> No
 
 def main():
     try:
-        n, inpt, read_from_file, output_file = parse_args(sys.argv)
-        shift_input(n, inpt, read_from_file, output_file)
+        shift_input(*parse_args(sys.argv))
     except Exception as e:
         print("Error:", e)
         print_command_template()
