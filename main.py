@@ -14,9 +14,9 @@ def can_parse_int(s: str) -> bool:
         return False
 
 def print_command_template() -> None:
-    """
+    '''
     print out command usage
-    """
+    '''
     print("ROTN [n; how much rotation; default 1] {text to be translated or name of file} [flag]")
     print("\tflags:")
     print("\t\t-f - input is a filename to translate; next word is file name")
@@ -64,11 +64,11 @@ def parse_args(args: list) -> [int, str, str]:
 
 
 def shift_characters(n: int, inpt: str) -> str:
-    """
+    '''
     the alpha characters in the string n characters to the right in the alphabet
     :n: number of spaces shifted
     :inpt: text to be shifted
-    """
+    '''
     result = ""
     size = len(string.ascii_uppercase)
     for char in inpt:
@@ -82,12 +82,12 @@ def shift_characters(n: int, inpt: str) -> str:
     return result
 
 def shift_input(n: int, inpt: str, output_file: str) -> None:
-    """
+    '''
     shift text or input from file and print or put in file
     :n: number of spaces shifted
     :inpt: text to be shifted or path to file
     :output_file: name of file to write to
-    """
+    '''
     shifted = shift_characters(n, inpt)
     if output_file == '':
         print(shifted)
