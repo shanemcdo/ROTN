@@ -99,11 +99,11 @@ def shift_input(n: int, inpt: str, output_file: str) -> None:
     :output_file: name of file to write to
     '''
     shifted = shift_characters(n, inpt)
-    if output_file == '':
-        print(shifted)
-    else:
+    if output_file:
         with open(output_file, 'w') as f:
             f.write(shifted)
+    else:
+        print(shifted)
 
 def main():
     try:
